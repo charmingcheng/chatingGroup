@@ -33,9 +33,9 @@
             <button class="send" @click="sendData">发送</button>
           </div>
         </div>
-        <div v-if="userList.length > 0" class="chating-online-number">
+        <div class="chating-online-number">
           <div class="online-num">在线用户{{userList.length}}</div>
-          <ul>
+          <ul v-if="userList.length > 0">
             <li class="user" v-for="(item, index) in userList" :key="index">
               <img src="../../assets/logo.png" alt="用户头像">
               <span>{{item.userName}}</span>
@@ -61,7 +61,7 @@ export default {
   data () {
     return {
       text: '',
-      socketUrl: 'ws://localhost:8888', // socket服务地址
+      socketUrl: 'ws://localhost:8888?userName=', // socket服务地址
       client: null, // webSocket实例
       chatingRecords: [], // 聊天记录
       myNickName: '', // 是否是自己
@@ -72,6 +72,7 @@ export default {
   },
   created () {
     console.log('created')
+    // this.initChaing()
   },
   mounted () {
     console.log('mounted')
@@ -82,30 +83,23 @@ export default {
       let that = this
       if (window.WebSocket) {
         /* webSocket 连接服务器 */
-        this.client = new WebSocket(this.socketUrl)
+        this.client = new WebSocket(this.socketUrl + this.myNickName)
 
         /* 监听客户端连接 */
         this.client.onopen = function (ev) {
-          console.log(ev)
           if (ev.type === 'open') {
-            /* 连接到socket服务后，把用户信息发过去，好让后台统计在线用户信心 */
-            let userInfo = {
-              userName: that.myNickName,
-              calculateUserInfo: true,
-              login: true
-            }
-            that.client.send(JSON.stringify(userInfo))
             console.log('客户端连接socket服务')
           }
         }
 
         /* 监听服务端发送的消息 */
         this.client.onmessage = function (ev) {
-          console.log(JSON.parse(ev.data), '服务端发送过来的数据')
           let data = JSON.parse(ev.data)
+          /* 用户在线信息接收的是一个jsony数组 */
           if (data instanceof Array === true) {
             that.userList = data // 在线用户数量变化
           } else {
+            /* 聊天信息接收的是一个json对象 */
             that.chatingRecords.push(data) // 在线用户聊天
           }
         }
@@ -122,7 +116,6 @@ export default {
             console.log('socket服务连接失败')
           }
           that.loginOutHandler()
-          that.client = null // 客户端或者是服务端断开后，将webSocket实例清除
         }
       } else {
         alert('该浏览器不支持webSocket，请使用主流浏览器，如chrome')
@@ -133,20 +126,12 @@ export default {
       this.showLogin = false
       /* 登录成功后再连接服务，是为了连接服务的时候把用户信息发过去 */
       this.initChaing()
-      console.log(this.myNickName)
-      console.log(this.userName)
     },
     loginOutHandler () {
-      let userInfo = {
-        userName: this.myNickName,
-        calculateUserInfo: true,
-        login: false
-      }
-      this.client.send(JSON.stringify(userInfo))
       this.client.close()
+      this.client = null // 客户端或者是服务端断开后，将webSocket实例清除
     },
     sendData () {
-      console.log(this.myNickName, 'this.myNickName')
       if (!this.myNickName) {
         alert('请登录')
         this.showLogin = true
@@ -154,7 +139,7 @@ export default {
       }
 
       let data = {
-        nickName: this.myNickName || 'user1',
+        nickName: this.myNickName,
         uid: new Date().getTime(),
         message: this.text,
         date: new Date()
@@ -164,21 +149,12 @@ export default {
         this.text = ''
       } else {
         console.log('socket服务连接失败,正在重新连接服务..')
-
         this.initChaing()
-        this.client.send(JSON.stringify(data))
       }
-      console.log(this.client, 'this.client')
-      console.log(this.client.readyState, 'aaa')
     }
   },
   beforeDestroy () {
-    let userInfo = {
-      userName: this.myNickName,
-      calculateUserInfo: true,
-      login: false
-    }
-    this.client.send(JSON.stringify(userInfo))
+    this.client.close()
   }
 }
 </script>
