@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>group_chat</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+
+    <!-- <button id="open">打开链接</button>
+    <button id="send">发送数据</button>
+    <button id="close">关闭连接</button>
+    <script>
+      var openBtn = document.getElementById('open');
+      var sendBtn = document.getElementById('send');
+      var closeBtn = document.getElementById('close');
+      var client;
+
+      function openWebSocket(){
+        if(window.WebSocket){
+          /* webSocket 连接服务器 */
+          client = new WebSocket('ws://localhost:8888');
+
+          /* 监听客户端连接 */
+          client.onopen = function(ev){
+            console.log(ev)
+            if(ev.type == 'open'){
+              console.log('客户端连接socket服务')
+            }
+          }
+
+          /* 监听服务端发送的消息 */
+          client.onmessage = function(ev){
+            console.log(ev.data,'服务端发送过来的数据')
+          }
+
+          /* 监听服务端关闭 */
+          client.onclose = function(ev){
+            console.log('socket服务已关闭')
+          }
+
+          /* 监听服务端异常 */
+          client.onerror = function(){
+            console.log('socket异常')
+          }
+
+        }else{
+          alert('该浏览器不支持webSocket，请使用主流浏览器，如chrome')
+        }
+      }
+
+
+      openBtn.addEventListener('click',function(){
+        console.log('打开连接')
+        openWebSocket()
+
+      })
+      sendBtn.addEventListener('click',function(){
+        console.log('发送数据')
+        /* 发送数据给服务端 */
+        if(client){
+          sendData()
+        }else{
+          console.log('服务已断开,正在重新链接...')
+          setTimeout(() => {
+            openWebSocket()
+            setTimeout(() => {
+              sendData()
+            }, 50);
+          }, 2000);
+        }
+      })
+      closeBtn.addEventListener('click',function(){
+        console.log('断开连接')
+        console.log(client,'client')
+        client.close();
+        client=null
+      })
+
+      function sendData(){
+        var data = {
+          name:'lili',
+          age:30,
+          address:'广州'
+        }
+        console.log(client,'client')
+        client.send(JSON.stringify(data)) //发送数据需要转成json格式
+      }
+
+    </script> -->
+  </body>
+</html>
