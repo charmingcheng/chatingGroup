@@ -4,7 +4,7 @@
 
 ## 安转依赖之前
 
-### 首先使用命令行工具（cmd)进入到 vue 项目里 socketServe 文件夹下面，安装 ws 和 monent 模块（为了方便才会把改文件放到 vue 的根目录下）
+### 首先使用命令行工具（cmd)进入到 vue 项目里 socketServe 文件夹下面，安装 ws 和 monent 模块（为了方便才会把该文件放到 vue 项目 的根目录下）
 
     npm install ws moment
 
