@@ -2,9 +2,19 @@
 
 > lihaohua
 
+## 安转依赖之前
+
+### 首先使用命令行进入到 vue 项目下面 socketServe 文件夹下面，安装 ws 和 monent 模块
+
+    npm install ws moment
+
+### 启动 socket 服务
+
+    node webSocket.js
+
 ## Build Setup
 
-``` bash
+```bash
 # install dependencies
 npm install
 
@@ -26,7 +36,5 @@ npm run e2e
 # run all tests
 npm test
 ```
-
-
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).

@@ -6,38 +6,34 @@
         <div class="chating-body">
           <div class="chating-list">
             <ul class="chating-records">
-              <div v-for="(item, index) in chatingRecords" :key="index">
-                <li v-show="item.nickName != myNickName" class="other" >
-                  <img src="../../assets/logo.png" alt="用户头像">
+              <div :key="index" v-for="(item, index) in chatingRecords">
+                <li class="other" v-show="item.nickName != myNickName">
+                  <img alt="用户头像" src="../../assets/logo.png" />
                   <div class="record-text-wrap">
                     <div class="nick-name">{{item.nickName}}</div>
-                    <div class="record-text">
-                      {{item.message}}
-                    </div>
+                    <div class="record-text">{{item.message}}</div>
                   </div>
                 </li>
-                <li v-show="item.nickName == myNickName" class="my">
+                <li class="my" v-show="item.nickName == myNickName">
                   <div class="record-text-wrap">
                     <!-- <div class="nick-name">迷离</div> -->
-                    <div class="record-text">
-                      {{item.message}}
-                    </div>
+                    <div class="record-text">{{item.message}}</div>
                   </div>
-                  <img src="../../assets/logo.png" alt="用户头像">
+                  <img alt="用户头像" src="../../assets/logo.png" />
                 </li>
               </div>
             </ul>
           </div>
           <div class="chating-btns">
-            <input class="input-text" v-model="text" type="text" placeholder="请输入聊天内容">
-            <button class="send" @click="sendData">发送</button>
+            <input class="input-text" placeholder="请输入聊天内容" type="text" v-model="text" />
+            <button @click="sendData" class="send">发送</button>
           </div>
         </div>
         <div class="chating-online-number">
           <div class="online-num">在线用户{{userList.length}}</div>
           <ul v-if="userList.length > 0">
-            <li class="user" v-for="(item, index) in userList" :key="index">
-              <img src="../../assets/logo.png" alt="用户头像">
+            <li :key="index" class="user" v-for="(item, index) in userList">
+              <img alt="用户头像" src="../../assets/logo.png" />
               <span>{{item.userName}}</span>
             </li>
           </ul>
@@ -46,13 +42,15 @@
       </div>
     </div>
 
-    <div v-if="showLogin" class="login">
+    <div class="login" v-if="showLogin">
       <div class="opacity-wrap">
-        <div>用户名：<input class="user-name" v-model="userName"></div>
-        <button class="login-btn" @click="loginHandler">登录</button>
+        <div>
+          用户名：
+          <input class="user-name" v-model="userName" />
+        </div>
+        <button @click="loginHandler" class="login-btn">登录</button>
       </div>
     </div>
-
   </div>
 </template>
 
@@ -130,6 +128,7 @@ export default {
     loginOutHandler () {
       this.client.close()
       this.client = null // 客户端或者是服务端断开后，将webSocket实例清除
+      this.$router.push('/')
     },
     sendData () {
       if (!this.myNickName) {
@@ -160,18 +159,18 @@ export default {
 </script>
 
 <style lang="">
-.login{
+.login {
   width: 100vw;
   height: 100vh;
   position: fixed;
   top: 0;
   left: 0;
-  background: rgba(0, 0, 0, .6);
+  background: rgba(0, 0, 0, 0.6);
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.opacity-wrap{
+.opacity-wrap {
   width: 500px;
   height: 300px;
   background: #fff;
@@ -180,12 +179,12 @@ export default {
   align-items: center;
   flex-direction: column;
 }
-.user-name{
+.user-name {
   font-size: 16px;
   padding: 5px;
   text-indent: 10px;
 }
-.login-btn{
+.login-btn {
   font-size: 20px;
   background: cornflowerblue;
   color: 20px;
@@ -196,85 +195,85 @@ export default {
   padding: 10px 20px;
   border-radius: 10px;
 }
-ul{
+ul {
   list-style: none;
   margin: 0;
   padding: 0;
 }
-.chating{
+.chating {
   max-width: 800px;
   border: 20px solid lightcyan;
   border-radius: 20px;
   margin: 0 auto 0;
 }
-.title{
+.title {
   background: cornflowerblue;
   color: #fff;
   padding: 5px 0 5px;
 }
-.chating-content{
+.chating-content {
   width: 100%;
   display: flex;
   justify-content: space-between;
 }
-.chating-body{
+.chating-body {
   flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   background: #f3f3f3;
 }
-.chating-list{
+.chating-list {
   flex: 1;
   border: 1px solid cornflowerblue;
 }
-.chating-records{
+.chating-records {
   padding: 10px;
   min-height: 300px;
   max-height: 600px;
   overflow-y: auto;
 }
-.chating-records li{
+.chating-records li {
   margin-bottom: 20px;
 }
-.chating-records .other{
+.chating-records .other {
   display: flex;
   justify-content: start;
   align-items: flex-start;
 }
-.chating-records .my{
+.chating-records .my {
   display: flex;
   justify-content: flex-end;
   align-items: center;
 }
 
-.chating-records img{
+.chating-records img {
   width: 36px;
   height: 36px;
   /* border-radius: 50%; */
   margin-right: 15px;
-  background: purple
+  background: purple;
 }
-.chating-records .my img{
+.chating-records .my img {
   margin-right: 0;
   margin-left: 15px;
 }
-.chating-records .other .record-text-wrap{
+.chating-records .other .record-text-wrap {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
 }
-.chating-records .my .record-text-wrap{
+.chating-records .my .record-text-wrap {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
 }
-.nick-name{
+.nick-name {
   font-size: 14px;
   margin-bottom: 5px;
   color: #666;
 }
-.record-text{
+.record-text {
   max-width: 260px;
   text-align: left;
   font-size: 14px;
@@ -283,21 +282,20 @@ ul{
   border-radius: 5px;
 }
 
-.chating-btns{
+.chating-btns {
   background: burlywood;
   padding: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-
 }
-.input-text{
+.input-text {
   font-size: 16px;
   border: none;
   outline: none;
   padding: 5px 0 5px 5px;
 }
-.send{
+.send {
   font-size: 16px;
   border: none;
   outline: none;
@@ -305,15 +303,15 @@ ul{
   margin-left: 20px;
 }
 
-.online-num{
+.online-num {
   font-size: 12px;
   padding-bottom: 15px;
 }
-.chating-online-number{
+.chating-online-number {
   padding: 15px;
   height: 100%;
 }
-.chating-online-number ul{
+.chating-online-number ul {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -321,7 +319,7 @@ ul{
   max-height: 580px;
   overflow-y: auto;
 }
-.user{
+.user {
   display: flex;
   justify-content: space-between;
   align-content: center;
@@ -331,12 +329,11 @@ ul{
   padding: 10px;
   margin-bottom: 5px;
 }
-.user img{
+.user img {
   width: 20px;
   height: 20px;
   border-radius: 50%;
   margin-right: 5px;
-  background: palevioletred
+  background: palevioletred;
 }
-
 </style>
